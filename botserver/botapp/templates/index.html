@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bot Server</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to the Bot Server</h1>
+    <div id="chat-container">
+      <div id="chat-log">
+        <!-- Chat messages will be dynamically added here -->
+      </div>
+      <div id="user-input">
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button id="send-btn">Send</button>
+      </div>
+    </div>
+    <div id="joke-container">
+      <button class="joke-btn" id="stupid-btn">Stupid</button>
+      <button class="joke-btn" id="fat-btn">Fat</button>
+      <button class="joke-btn" id="dumb-btn">Dumb</button>
+      <div id="joke-display"></div>
+    </div>
+  </div>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
