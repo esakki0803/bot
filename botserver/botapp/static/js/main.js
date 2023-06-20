@@ -1,36 +1,12 @@
 var nameInput = document.getElementById("name-input");
 var startBtn = document.getElementById("start-btn");
 
-startBtn.addEventListener("click", function() {
-    var name = nameInput.value;
-    if (name.trim() !== "") {
-      displayUserMessage("My name is " + name);
-      nameInput.disabled = true;
-      startBtn.disabled = true;
-  
-      // Send AJAX request to start the bot
-      $.ajax({
-        type: "POST",
-        url: "/start-bot/",
-        data: {
-          name: name,
-          button: "start"
-        },
-        success: function(response) {
-          console.log("Bot started successfully.");
-        },
-        error: function(error) {
-          console.error("Failed to start the bot.");
-        }
-      });
-    }
-  });
-
 var jokeButtonElements = document.getElementsByClassName('btn-dark');
 var words
 for (var i = 0; i < jokeButtonElements.length; i++) {
+  jokeButtonElements[i].addEventListener('click', displayJoke.bind(this, nameInput), false);
 
-  jokeButtonElements[i].addEventListener('click', displayJoke);
+  
 }
 
 
@@ -53,7 +29,7 @@ var arr=new Array();
 var arr2=new Array();
 
 var inc=0 ;
-function displayJoke(event) {
+function displayJoke(nameInput) {
 
     
     
@@ -75,6 +51,10 @@ function displayJoke(event) {
         
         var ke = getJoke(keType);
         inc++
+        var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        
+      
         arr.push({name:keType,data:ke , className:"p"+inc})
         arr2.push({name:keType,data:keType , className:"p"+inc})
         var addClass= document.getElementById("heading");
@@ -93,20 +73,25 @@ function displayJoke(event) {
         div.className = "chat-bubble you "+ arr[arr.length-1].className;
         div.innerHTML = arr[arr.length-1].data;
         messageList.appendChild(div);
+        var name =nameInput.value
         $.ajax({
-            type: "POST",
-            url: "/start-bot/",
-            data: {
-              name: name,
-              button: "start"
-            },
-            success: function(response) {
-              console.log("Bot started successfully.");
-            },
-            error: function(error) {
-              console.error("Failed to start the bot.");
-            }
-          });
+          type: "POST",
+          url: "/start-bot/",
+          data: {
+            name: name,
+            button: keType
+          },
+          headers: {
+            "X-CSRFToken": csrfToken
+          },
+          success: function(response) {
+            console.log("Bot started successfully.");
+          },
+          error: function(error) {
+            console.error("Failed to start the bot.");
+          }
+        });
+  
 
     // })
 //         var listItem =document.createTextNode(ke);
@@ -114,30 +99,32 @@ function displayJoke(event) {
 
     }
 
-        var keType = event.target.getAttribute('data-joke');
-        var ke = getJokeHeading(keType);
+        // var keType = event.target.getAttribute('data-joke');
+        // var ke = getJokeHeading(keType);
 
-        // var addClass= document.getElementById("data");
-        // var messageList = document.getElementById('message-data');
-        var messageList =  document.getElementById('main');
-                // var listItem = document.createElement('span');
-                // listItem.textContent = ke;
+        // // var addClass= document.getElementById("data");
+        // // var messageList = document.getElementById('message-data');
+        // var messageList =  document.getElementById('main');
+        //         // var listItem = document.createElement('span');
+        //         // listItem.textContent = ke;
 
-                // arr.forEach((val)=>{
+        //         // arr.forEach((val)=>{
 
-                    var div = document.createElement("div");
-                    div.className ="chat-bubble me "+ arr[arr.length-1].className;
-                    div.innerHTML = arr[arr.length-1].name;
-                    messageList.appendChild(div);
+        //             var div = document.createElement("div");
+        //             div.className ="chat-bubble me "+ arr[arr.length-1].className;
+        //             div.innerHTML = arr[arr.length-1].name;
+        //             messageList.appendChild(div);
             
-                // })
+        //         // })
 
-        //         var listItem =document.createTextNode(ke);
-        // messageList.appendChild(listItem);
-        // document.getElementById('data').innerHTML = 
-        var addClass= document.getElementById("data");
-        addClass.classList.replace('you',"me")
+        // //         var listItem =document.createTextNode(ke);
+        // // messageList.appendChild(listItem);
+        // // document.getElementById('data').innerHTML = 
+        // var addClass= document.getElementById("data");
+        // addClass.classList.replace('you',"me")
 
         console.log(arr,"-----")
   }
 
+
+console.log('mk'+nameInput.value)

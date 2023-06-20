@@ -22,6 +22,7 @@ from botapp import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', views.index, name='index'),
+    path('start-bot/', views.start_bot, name='index2')
 ]
 
 
