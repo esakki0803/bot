@@ -6,4 +6,12 @@ class ButtonCall(models.Model):
     count = models.IntegerField(default=0)
 
     def __str__(self):
+        print(f"{self.name} - {self.button} ({self.count} calls)")
         return f"{self.name} - {self.button} ({self.count} calls)"
+    
+class User(models.Model):
+    name = models.CharField(max_length=100)
+    call_count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name

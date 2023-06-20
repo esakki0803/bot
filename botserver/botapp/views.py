@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import ButtonCall
+from .models import ButtonCall
+
 
 def index(request):
-    return render(request, 'index.html')
+    users = ButtonCall.objects.all()
+    return render(request, 'index.html',{'users': users})
 
 
 def start_bot(request):
+    
     print(request )
     if request.method == 'POST':
         name = request.POST.get('name')
